@@ -1,0 +1,19 @@
+= simple_form_for(@mymemo, html: {class: 'form-horizontal'}) do |f|
+  = render 'shared/form_error', object: f.object
+
+  .container-fluid
+    .form-group
+      .col-sm-2.col-sm-offset-1.text-left
+        = f.label :title
+      .col-sm-6
+        = f.input :title, autofocus: true, label: false, class: "form-control"
+    .form-group
+      .col-sm-2.col-sm-offset-1.text-left
+        = f.label :text
+      .col-sm-6
+        = f.input :text, label: false, as: :text, input_html: { class: 'js-textcomplete form-control mymemo-text', :cols => 80, :rows => 10 }
+    .form-group
+      .col-sm-2.col-sm-offset-1.text-left
+      .col-sm-6
+        .form-actions
+          = f.button :submit, '保存', class: 'btn btn-primary'

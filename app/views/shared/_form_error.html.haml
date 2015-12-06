@@ -1,0 +1,7 @@
+- if object.errors.any?
+  %div.panel.panel-danger
+    %div.panel-heading
+      = "#{object.errors.count} 個のエラーがあります"
+    %div.panel-body
+      - object.errors.full_messages.each do |msg|
+        %li= msg

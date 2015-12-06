@@ -1,0 +1,23 @@
+.container
+  %h1= 'メモ'
+  %table.table
+    %tr
+      %th= 'タイトル'
+      %th= 'メモ'
+      %th
+    - @mymemos.each do |mymemo|
+      %tr
+        %td= mymemo.title
+        %td= emojify(mymemo.text)
+        %td
+          = link_to edit_mymemo_path(mymemo) do
+            = fa_icon 'edit', text: '編集'
+          &nbsp;&nbsp;
+          = link_to mymemo, method: :delete, data: { confirm: '削除してもよろしいですか？'} do
+            = fa_icon 'remove', text: '削除'
+    %tr
+      %td
+        = link_to new_mymemo_path do
+          = fa_icon 'plus', text: '追加'
+      %td
+      %td

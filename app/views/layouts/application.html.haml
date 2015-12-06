@@ -1,0 +1,51 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Memo
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-default.navbar-top{role: "navigation"}
+      .container-fluid.navbar-container-fluid
+        .navbar-header
+          %button.navbar-toggle.collapsed{type: "button", data: {toggle: "collapse", target: "#navbar"}, aria: {expanded: "false", controls: "navbar"} }
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to root_path, class: 'navbar-brand' do
+            = fa_icon 'file-text', text: '俺のメモ'
+        #navbar.collapse.navbar-collapse
+          - if user_signed_in?
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}, role: "button"}
+                  = current_user.email
+                  %span.caret
+                %ul.dropdown-menu
+                  %li
+                    = link_to "ログアウト", destroy_user_session_path, :method => :delete
+          - else
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}, role: "button"}
+                  %span.caret
+                %ul.dropdown-menu
+                  %li
+                    = link_to "ログイン", new_user_session_path
+    .container
+      = render 'shared/alert', message: notice, alert_type: 'info' if notice
+      = render 'shared/alert', message: alert, alert_type: 'warning' if alert
+      = yield
+.hidden
+  - top = %w(+1 ok_hand clap hand wave pray v smile persevere rice)
+  #emoji-data
+    %ul
+      - top.each do |name|
+        - emoji = Emoji.find_by_alias(name)
+        %li{data: {emoji: emoji.name, src: "/images/emoji/#{emoji.image_filename}"}}
+      - Emoji.all.each do |emoji|
+        - unless top.include?(emoji.name) || emoji.name == '1234'
+          %li{data: {emoji: emoji.name, src: "/images/emoji/#{emoji.image_filename}"}}
